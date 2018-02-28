@@ -1,3 +1,5 @@
 namespace: tomwhiston
 image: gophers10
 tag: latest
+container_name: gophers10
+app_name: gophers10

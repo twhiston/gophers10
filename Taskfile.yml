@@ -31,6 +31,7 @@ install:
     - .
   dir: ./gophers10
   cmds:
+    - packr
     - go install
 
 run:
@@ -52,7 +53,22 @@ docker:build:
 docker:run:
   deps: ['docker:build']
   cmds:
-    - docker run -p "8080:8080" {{ .namespace }}/{{ .image }}:{{ .tag }}
+    - docker run --name={{ .container_name }} -p "8080:8080" {{ .namespace }}/{{ .image }}:{{ .tag }} &
+    - sleep 2
+    - open http://0.0.0.0:8080
+
+docker:stop:
+  cmds:
+    - docker stop {{ .container_name }}
+
+docker:clean:
+  cmds:
+    - docker rm {{ .container_name }}
+
+docker:down:
+  cmds:
+    - task: docker:stop
+    - task: docker:clean
 
 docker:test:
   deps: ['docker:build']
