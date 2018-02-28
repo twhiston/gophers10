@@ -1,0 +1,7 @@
+author: "Tom Whiston <tom.whiston@gmail.com>"
+version: "1.0.0"
+tools:
+  - github.com/alecthomas/gometalinter
+  - github.com/go-task/task/cmd/task
+  - github.com/aelsabbahy/goss/cmd/goss
+  - github.com/golang/dep/cmd/dep

@@ -1,0 +1,5 @@
+- type: parallel
+  steps:
+    - name: run toolchain image
+      service: toolchain
+      command: task ci

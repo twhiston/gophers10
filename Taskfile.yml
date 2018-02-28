@@ -1,0 +1,71 @@
+deps:
+  dir: ./gophers10
+  sources:
+    - Gopkg.toml
+    - Gopkg.lock
+  method: checksum
+  generates:
+      - ./vendor
+  cmds:
+    - dep ensure
+
+lint:
+  deps: ['deps']
+  dir: ./gophers10
+  sources:
+   - .
+  cmds:
+    - gometalinter ./... --vendor
+
+gotest:
+  deps: ['deps']
+  dir: ./gophers10
+  sources:
+    - ./*_test.go
+  cmds:
+    - go test
+
+install:
+  deps: ['deps']
+  sources:
+    - .
+  dir: ./gophers10
+  cmds:
+    - go install
+
+run:
+  deps: ['install', 'stop']
+  cmds:
+    - gophers10 &
+    - open http://127.0.0.1:8080
+
+stop:
+  cmds:
+    - killall gophers10 || true
+
+docker:build:
+  sources:
+    - ./gophers10
+  cmds:
+    - docker build -t {{ .namespace }}/{{ .image }}:{{ .tag }} ./gophers10
+
+docker:run:
+  deps: ['docker:build']
+  cmds:
+    - docker run -p "8080:8080" {{ .namespace }}/{{ .image }}:{{ .tag }}
+
+docker:test:
+  deps: ['docker:build']
+  cmds:
+    - GOSS_FILES_STRATEGY="cp" dgoss run -it {{ .namespace }}/{{ .image }}:{{ .tag }} /bin/ash
+
+test:
+  cmds:
+    - task: lint
+    - task: gotest
+    - task: docker:test
+
+ci:
+  cmds:
+    - task: test
+    - curl -X POST -k https://openshift.nine.ch:8443/oapi/v1/namespaces/tomw-gophers-production/buildconfigs/gophers/webhooks/YeFk4lPEvvoBIGKft5Ve/generic

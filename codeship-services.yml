@@ -1,0 +1,11 @@
+# Codeship specific docker compose file
+version: "2"
+
+services:
+  toolchain:
+    add_docker: true
+    cached: true
+    build: ./toolchain
+    working_dir: /go/src/github.com/twhiston/gophers10
+    volumes:
+    - ./:/go/src/github.com/twhiston/gophers10

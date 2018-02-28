@@ -1,0 +1,16 @@
+file:
+  /usr/local/bin/app:
+    exists: true
+    mode: "0755"
+    owner: nonroot
+    group: root
+    filetype: file
+command:
+  id:
+    exit-status: 0
+    stdout:
+    - uid=1001(nonroot) gid=0(root) groups=0(root)
+  whoami:
+    exit-status: 0
+    stdout:
+    - nonroot
