@@ -84,4 +84,4 @@ test:
 ci:
   cmds:
     - task: test
-    - curl -X POST -k https://openshift.nine.ch:8443/oapi/v1/namespaces/tomw-gophers-production/buildconfigs/gophers/webhooks/YeFk4lPEvvoBIGKft5Ve/generic
+    #- curl -X POST -k https://openshift.nine.ch:8443/oapi/v1/namespaces/tomw-gophers-production/buildconfigs/gophers/webhooks/YeFk4lPEvvoBIGKft5Ve/generic
